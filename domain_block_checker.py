@@ -35,11 +35,11 @@ def normalize_url(url):
     elif url.startswith("https://"):
         url = url[8:]
     # Remove trailing slash if present
-    if url.endswith("/"):
+    if url endswith("/"):
         url = url[:-1]
     return url
 
-def cek_domain(domain):
+def check_domain(domain):
     """Check if the domain is blocked using the checkdomain API"""
     domain = normalize_url(domain)  # Normalize the URL to ensure proper API response
     try:
@@ -54,9 +54,9 @@ def cek_domain(domain):
         logging.error(f"Failed to check domain {domain}. Error: {e}")
         return True  # Default to blocked on error
 
-def kirim_notifikasi_ke_slack(pesan):
+def send_notification_to_slack(message):
     """Send a notification message to Slack using the specified webhook URL"""
-    payload = {"text": pesan}
+    payload = {"text": message}
     try:
         # Send the notification via POST request to Slack webhook
         response = requests.post(WEBHOOK_URL, json=payload)
@@ -70,18 +70,18 @@ def handle_link(link):
     logging.info(f"Starting to check domain: {link}")
     try:
         # Check if the domain is blocked
-        is_blocked = cek_domain(link)
+        is_blocked = check_domain(link)
         if is_blocked:
             # Log and notify if the domain is blocked
-            pesan = f"[{get_current_time()}] Domain {link} is BLOCKED - NEEDS REPLACEMENT"
-            logging.info(pesan)
-            kirim_notifikasi_ke_slack(pesan)
+            message = f"[{get_current_time()}] Domain {link} is BLOCKED - NEEDS REPLACEMENT"
+            logging.info(message)
+            send_notification_to_slack(message)
             return link, True
         else:
             # Log and notify if the domain is safe
-            pesan = f"[{get_current_time()}] Domain {link} is safe."
-            logging.info(pesan)
-            kirim_notifikasi_ke_slack(pesan)
+            message = f"[{get_current_time()}] Domain {link} is safe."
+            logging.info(message)
+            send_notification_to_slack(message)
             return link, False
     except Exception as e:
         # Log any unexpected errors that occur during the domain check
@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     try:
         # Load the list of domain links from the specified file
-        daftar_link = load_links_from_file(FILE_LINKS)
+        domain_list = load_links_from_file(FILE_LINKS)
     except Exception as e:
         # Log the error and exit if the file cannot be read
         logging.error(f"Failed to read file {FILE_LINKS}. Error: {e}")
@@ -103,7 +103,7 @@ if __name__ == "__main__":
 
     # Use ThreadPoolExecutor to process multiple domain checks concurrently
     with ThreadPoolExecutor(max_workers=MAX_THREADS) as executor:
-        futures = [executor.submit(handle_link, link) for link in daftar_link]
+        futures = [executor.submit(handle_link, link) for link in domain_list]
 
         blocked_links = []
         for future in futures:
@@ -116,11 +116,11 @@ if __name__ == "__main__":
                 # Log any errors that occur during thread execution
                 logging.error(f"Error occurred in one of the threads: {e}")
 
-        total_links = len(daftar_link)
+        total_links = len(domain_list)
         total_blocked = len(blocked_links)
 
         # Send a summary notification to Slack with the results
-        pesan_ringkasan = f"Checked {total_links} domains successfully at {get_current_time()}. Blocked domains: {', '.join(blocked_links)}"
-        kirim_notifikasi_ke_slack(pesan_ringkasan)
+        summary_message = f"Checked {total_links} domains successfully at {get_current_time()}. Blocked domains: {', '.join(blocked_links)}"
+        send_notification_to_slack(summary_message)
 
     logging.info("Completed domain checking process")
