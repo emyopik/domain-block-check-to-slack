@@ -65,11 +65,3 @@ Special thanks to [Skiddle-ID](https://github.com/Skiddle-ID/checkdomain) for pr
 ## Contributions
 
 Contributions are always welcome! If you have suggestions or find any bugs, feel free to open an issue or submit a pull request.
-
-## License
-
-This project is licensed under the MIT License.
-
----
-
-You can further customize this README as needed for your project.
