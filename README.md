@@ -51,12 +51,12 @@ pip install requests
 
 ## Code Explanation
 
-- **get_current_time()**: Returns the current time formatted for logging and notifications.
-- **load_links_from_file(filename)**: Loads the list of domains from a text file.
-- **normalize_url(url)**: Removes protocol and trailing slash from the URL to ensure proper API response.
-- **cek_domain(domain)**: Checks the block status of the domain using an external API.
-- **kirim_notifikasi_ke_slack(pesan)**: Sends a notification to Slack.
-- **handle_link(link)**: Manages the checking process for a single domain and sends a notification if the domain is blocked.
+- **get_current_time()**: Returns the current time formatted for logging and notifications in WIB (GMT+7) timezone.
+- **load_links_from_file(filename)**: Loads the list of domains from a specified text file.
+- **normalize_url(url)**: Normalizes a URL by removing the protocol (http/https) and any trailing slash.
+- **check_domain(domain)**: Checks the block status of the domain using an external API.
+- **send_notification_to_slack(message)**: Sends a notification message to Slack using the provided webhook URL.
+- **handle_link(link)**: Processes and checks the status of a single domain link and sends a notification if the domain is blocked.
 
 ## Acknowledgments
 
