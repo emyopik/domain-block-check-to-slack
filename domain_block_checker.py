@@ -35,7 +35,7 @@ def normalize_url(url):
     elif url.startswith("https://"):
         url = url[8:]
     # Remove trailing slash if present
-    if url endswith("/"):
+    if url.endswith("/"):
         url = url[:-1]
     return url
 
