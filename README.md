@@ -36,7 +36,7 @@ This script is for anyone who needs to regularly check if a list of domains is b
      ```
 
 2. **Download the Script**:
-   - Copy the script from this page into a new file named `domain_block_checker.py` using your text editor.
+   - Copy the script from this page into a new file named [`domain_block_checker.py`](https://github.com/emyopik/domain-block-check-to-slack/blob/main/domain_block_checker.py) using your text editor.
    
 3. **Prepare Your List of Domains**:
    - Create a simple text file using your text editor.
